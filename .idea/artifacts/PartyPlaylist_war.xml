@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="war" name="PartyPlaylist:war">
-    <output-path>$PROJECT_DIR$/target</output-path>
-    <root id="archive" name="PartyPlaylist.war">
-      <element id="artifact" artifact-name="PartyPlaylist:war exploded" />
-    </root>
-  </artifact>
-</component>
