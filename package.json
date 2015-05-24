@@ -15,6 +15,9 @@
     "serve-favicon": "~2.2.0",
     "express-session": "~1.11.2",
     "spotify-web-api-node": "~2.0.2",
-    "async": "~1.0.0"
+    "async": "~1.0.0",
+    "jade": "~1.9.2",
+    "mongodb": "~2.0.33",
+    "monk": "1.0.1"
   }
 }

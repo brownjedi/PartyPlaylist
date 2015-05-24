@@ -10,7 +10,7 @@ block maincontent
                     i.fa.fa-dashboard Level
             li.active #{status} Error
     // Main content
-    section.content
+    section.content#maincontentblock
         // Your Page Content Here
         .error-page
             if status == 404
@@ -28,4 +28,7 @@ block maincontent
                 p
                     | We will work on fixing that right away.
                     | Meanwhile, you may
-                    a(href='/playboard')  return to dashboard
+                    a.ajax-call(href='/playboard', data-target='#mainblock')  return to Playboard
+
+                if (error && error.stack)
+                    p !{error.stack}

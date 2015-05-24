@@ -6,7 +6,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var login = require('./routes/login');
-
+var api = require('./routes/api');
+var utils = require('./util/utils');
 var app = express();
 
 // view engine setup
@@ -26,15 +27,9 @@ app.use(express.static(path.join(__dirname, 'public')));
  *  Detecting an AJAX route
  */
 
-// Intercept all routes beginning with "/ajax/"
-app.get('/ajax/?*', function(req, res, next) {
-    // Set flag that the route controller can use
-    req.fjAjax = true;
-
-    next();
-});
 
 app.use('/', login);
+app.use('/api/v1', api);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -49,11 +44,28 @@ app.use(function (req, res, next) {
 // will print stacktrace
 if (app.get('env') === 'development') {
     app.use(function (err, req, res, next) {
-        res.status(err.status || 500);
-        res.render('error', {
-            message: err.message,
-            error: err,
-            status: err.status
+        if (req.xhr) {
+            res.status(err.status || 500);
+            res.render('error', {
+                message: err.message,
+                error: err,
+                status: err.status,
+                ajaxRender: true
+            });
+        } else {
+            next(err);
+        }
+    });
+
+    app.use(function (err, req, res, next) {
+        var access_token = req.cookies ? req.cookies['spotify_access_token'] : null;
+        utils.getUserDetails(access_token, false, function (err1, data) {
+            data.message = err.message;
+            data.error = err;
+            data.status = err.status;
+            data.ajaxRender = false;
+            res.status(err.status || 500);
+            res.render('error', data);
         });
     });
 }
@@ -61,11 +73,28 @@ if (app.get('env') === 'development') {
 // production error handler
 // no stacktraces leaked to user
 app.use(function (err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-        message: err.message,
-        error: {},
-        status: err.status
+    if (req.xhr) {
+        res.status(err.status || 500);
+        res.render('error', {
+            message: err.message,
+            error: {},
+            status: err.status,
+            ajaxRender: true
+        });
+    } else {
+        next(err);
+    }
+});
+
+app.use(function (err, req, res, next) {
+    var access_token = req.cookies ? req.cookies['spotify_access_token'] : null;
+    utils.getUserDetails(access_token, false, function (err1, data) {
+        data.message = err.message;
+        data.error = {};
+        data.status = err.status;
+        data.ajaxRender = false;
+        res.status(err.status || 500);
+        res.render('error', data);
     });
 });
 

@@ -1,0 +1,80 @@
+extends layout
+block maincontent
+    // Content Header (Page header)
+    section.content-header
+        h1 Profile
+        ol.breadcrumb
+            li
+                a(href='#')
+                    i.fa.fa-dashboard Level
+            li.active Profile
+    // Main content
+    section.content#maincontentblock
+        // Your Page Content Here
+        .container
+            .row
+                .col-md-12.col-xs-12
+                    .well.panel.panel-default
+                        .panel-body
+                            .row
+                                .col-xs-12.col-sm-4.text-center
+                                    img.center-block.img-circle.img-thumbnail.img-responsive(src='#{image}', alt='User Image')
+                                    ul.list-inline.ratings.text-center(title='Ratings')
+                                        li
+                                            a(href='#')
+                                                span.fa.fa-star.fa-lg
+                                        li
+                                            a(href='#')
+                                                span.fa.fa-star.fa-lg
+                                        li
+                                            a(href='#')
+                                                span.fa.fa-star.fa-lg
+                                        li
+                                            a(href='#')
+                                                span.fa.fa-star.fa-lg
+                                        li
+                                            a(href='#')
+                                                span.fa.fa-star.fa-lg
+                                // /col
+                                .col-xs-12.col-sm-8
+                                    h2 #{name}
+                                    p
+                                        strong About:
+                                        |  Web Designer / UI Expert.
+                                    p
+                                        strong Hobbies:
+                                        |  Read, out with friends, listen to music, draw and learn new things.
+                                    p
+                                        strong Skills:
+                                        span.label.label-info.tags html5
+                                        span.label.label-info.tags css3
+                                        span.label.label-info.tags jquery
+                                        span.label.label-info.tags bootstrap3
+                                // /col
+                                .clearfix
+                                .col-xs-12.col-sm-4
+                                    h2
+                                        strong  20,7K
+                                    p
+                                        small Followers
+                                    button.btn.btn-success.btn-block
+                                        span.fa.fa-plus-circle
+                                        |  Follow
+                                // /col
+                                .col-xs-12.col-sm-4
+                                    h2
+                                        strong 245
+                                    p
+                                        small Following
+                                    button.btn.btn-info.btn-block
+                                        span.fa.fa-user
+                                        |  View Profile
+                                // /col
+                                .col-xs-12.col-sm-4
+                                    h2
+                                        strong 43
+                                    p
+                                        small Snippets
+                                    button.btn.btn-primary.btn-block(type='button')
+                                        span.fa.fa-gear
+                                        |  Options
