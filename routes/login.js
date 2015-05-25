@@ -70,7 +70,7 @@ router.get('/callback', function (req, res) {
 });
 
 
-router.use(function(req, res, next){
+router.use(function (req, res, next) {
     var access_token = req.cookies ? req.cookies['spotify_access_token'] : null;
     if (access_token != undefined) {
         next();

@@ -27,7 +27,6 @@ if (!ajaxRender)
             link(rel='stylesheet', type='text/css', href='stylesheets/AdminLTE.min.css')
             // Playboard CSS
             link(rel='stylesheet', type='text/css', href='stylesheets/playboard.css')
-
             //
                 AdminLTE Skins. We have chosen the skin-blue for this starter
                 page. However, you can choose any other skin. Make sure you
@@ -61,7 +60,7 @@ if (!ajaxRender)
                 // Main Header
                 header.main-header
                     // Logo
-                    a.logo.ajax-call(href='/playboard', data-target='#mainblock')
+                    a.logo.ajax-call(href='/playboard', data-target='#mainblock', data-replaceURL='true')
                         // mini logo for sidebar mini 50x50 pixels
                         span.logo-mini
                             b PP
@@ -108,7 +107,7 @@ if (!ajaxRender)
                                         // Menu Footer
                                         li.user-footer
                                             .pull-left
-                                                a.btn.btn-default.btn-flat.ajax-call(href='/user', data-target='#mainblock') Profile
+                                                a.btn.btn-default.btn-flat.ajax-call(href='/user', data-target='#mainblock', data-replaceURL='true') Profile
                                             .pull-right
                                                 a.btn.btn-default.btn-flat(href='/logout') Sign out
                 // Left side column. contains the logo and sidebar
@@ -128,25 +127,55 @@ if (!ajaxRender)
                                 else
                                     p#leftUserName #{name}
                                 // Status
-                                a.ajax-call(href='/user', data-target='#mainblock')
+                                a.ajax-call(href='/user', data-target='#mainblock', data-replaceURL='true')
                                     i.fa.fa-circle.text-success Online
                         ul.sidebar-menu
-                            li.header HEADER
+                            li.header EVENT BOARD
                             // Optionally, you can add icons to the links
                             li
-                                a(href='#')
-                                    i.fa.fa-link
-                                    span Suprise Me!
-                                li.treeview
-                                    a(href='#')
-                                        i.fa.fa-link
-                                        span Playlists
-                                        i.fa.fa-angle-left.pull-right
-                                    ul.treeview-menu
-                                        li
-                                            a(href='#') Playlist 1
-                                        li
-                                            a(href='#') Playlist 2
+                                a.my-border-green(href='#')
+                                    i.fa.fa-edit.text-green
+                                    span Create New Event
+                            li.treeview
+                                a.my-border-red(href='#')
+                                    i.fa.fa-circle-o.text-red
+                                    span Ongoing Events
+                                    i.fa.fa-angle-left.pull-right
+                                ul.treeview-menu
+                                    if events
+                                        each val in events
+                                            if val.eventStatus == "ongoing"
+                                                li
+                                                    a(href='#')
+                                                        i.fa.fa-circle-o
+                                                        | #{val.eventName}
+
+                            li.treeview
+                                a.my-border-blue(href='#')
+                                    i.fa.fa-circle-o.text-aqua
+                                    span Future Events
+                                    i.fa.fa-angle-left.pull-right
+                                ul.treeview-menu
+                                    if events
+                                        each val in events
+                                            if val.eventStatus == "future"
+                                                li
+                                                    a(href='#')
+                                                        i.fa.fa-circle-o
+                                                        | #{val.eventName}
+                            li.treeview
+                                a.my-border-yellow(href='#')
+                                    i.fa.fa-circle-o.text-yellow
+                                    span Past Events
+                                    i.fa.fa-angle-left.pull-right
+                                ul.treeview-menu
+                                    if events
+                                        each val in events
+                                            if val.eventStatus == "past"
+                                                li
+                                                    a(href='#')
+                                                        i.fa.fa-circle-o
+                                                        | #{val.eventName}
                         // /.sidebar-menu
                     // /.sidebar
                 // Content Wrapper. Contains page content
@@ -173,7 +202,7 @@ if (!ajaxRender)
             // Faskclick
             script(src='javascripts/fastclick.min.js', type='text/javascript')
             // slimscroll
-            script(src='javascripts/jquery.slimscroll.min.js', type='text/javascript')
+            // script(src='javascripts/jquery.slimscroll.min.js', type='text/javascript')
             // Layout JS
             script(type='text/javascript').
 
@@ -213,7 +242,7 @@ if (!ajaxRender)
                             //done: function (data) {
                             //    $("#mainblock").html(data);
                             //}
-                            complete: function(xhr){
+                            complete: function (xhr) {
                                 // Do post operations
                             }
                         });

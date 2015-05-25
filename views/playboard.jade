@@ -2,91 +2,115 @@ extends layout
 
 block maincontent
     // Content Header (Page header)
+    -function prettyDate(dateString){
+    -var date = new Date(dateString);
+    -var d = date.getDate();
+    -var monthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
+    -var m = monthNames[date.getMonth()];
+    -var y = date.getFullYear();
+    -return d+' '+m+' '+y;
+    -}
     section.content-header
         h1 Playboard
         ol.breadcrumb
             li
                 a(href='#')
-                    i.fa.fa-dashboard Level
+                    i.fa.fa-dashboard  Level
             li.active Playboard
     // Main content
     section.content#maincontentblock
         // Your Page Content Here
-        h4.well.well-sm.my-well.white Ongoing Events
+        - var count = 0;
         .row
-            .col-xs-12.col-sm-6.col-md-3.event
-                .thumbnail
-                    .overlay
-                    img.img-responsive(alt='alternative text', src='http://lorempixel.com/800/400/nightlife?7')
-                span.label.label-info.date Jun 12
-                span.label.label-primary.pull-right Boys 5$
-                p
-                    strong Business & Entrepreneurs Workshop
-                    br
-                    em at Grand Hotel Italia
-                    br
-                    span.small 10:00 AM - 21:00 PM
-        h4.well.well-sm.my-well.white Future Events
+            .col-md-12.col-xs-12.col-sm-12
+                .box.box-danger
+                    .box-header.with-border
+                        h3.box-title Ongoing Events
+                        .box-tools.pull-right
+                            button.btn.btn-box-tool(data-widget='collapse')
+                                i.fa.fa-minus
+                    // /.box-header
+                    .box-body
+                        .row
+                            if events
+                                each val in events
+                                    if val.eventStatus == "ongoing"
+                                        - count = count + 1;
+                                        .col-xs-12.col-sm-6.col-md-3.event
+                                            .thumbnail
+                                                .overlay
+                                                img.img-responsive(alt='alternative text', src='http://lorempixel.com/800/400/nightlife/' + count)
+                                            span.label.label-info.pull-left #{prettyDate(val.eventDate)}
+                                            if val.privateEvent
+                                                span.label.label-danger.pull-right Private
+                                            else
+                                                span.label.label-success.pull-right Public
+                                            br
+                                            p
+                                                strong #{val.eventName}
+                                                br
+                                                em at #{val.eventLocation}
+                                                br
+                                                span.small #{val.eventStartTime} - #{val.eventEndTime}
         .row
-            .col-xs-12.col-sm-6.col-md-3.event
-                .thumbnail
-                    .overlay
-                    img.img-responsive(alt='alternative text', src='http://lorempixel.com/800/400/nightlife?6')
-                span.label.label-info.date Jun 12
-                span.label.label-primary.pull-right Boys 5$
-                p
-                    strong Business & Entrepreneurs Workshop
-                    br
-                    em at Grand Hotel Italia
-                    br
-                    span.small 10:00 AM - 21:00 PM
-            .col-xs-12.col-sm-6.col-md-3.event
-                .thumbnail
-                    .overlay
-                    img.img-responsive(alt='alternative text', src='http://lorempixel.com/800/400/nightlife?5')
-                span.label.label-info.date Jun 12
-                span.label.label-primary.pull-right Boys 5$
-                p
-                    strong Business & Entrepreneurs Workshop
-                    br
-                    em at Grand Hotel Italia
-                    br
-                    span.small 10:00 AM - 21:00 PM
-        h4.well.well-sm.my-well.white Past Events
+            .col-md-12.col-xs-12.col-sm-12
+                .box.box-info
+                    .box-header.with-border
+                        h3.box-title Future Events
+                        .box-tools.pull-right
+                            button.btn.btn-box-tool(data-widget='collapse')
+                                i.fa.fa-minus
+                    // /.box-header
+                    .box-body
+                        .row
+                            if events
+                                each val in events
+                                    if val.eventStatus == "future"
+                                        - count = count + 1;
+                                        .col-xs-12.col-sm-6.col-md-3.event
+                                            .thumbnail
+                                                .overlay
+                                                img.img-responsive(alt='alternative text', src='http://lorempixel.com/800/400/nightlife/' + count)
+                                            span.label.label-info.pull-left #{prettyDate(val.eventDate)}
+                                            if val.privateEvent
+                                                span.label.label-danger.pull-right Private
+                                            else
+                                                span.label.label-success.pull-right Public
+                                            br
+                                            p
+                                                strong #{val.eventName}
+                                                br
+                                                em at #{val.eventLocation}
+                                                br
+                                                span.small #{val.eventStartTime} - #{val.eventEndTime}
         .row
-            .col-xs-12.col-sm-6.col-md-3.event
-                .thumbnail
-                    .overlay
-                    img.img-responsive(alt='alternative text', src='http://lorempixel.com/800/400/nightlife?1')
-                span.label.label-info.date Jun 12
-                span.label.label-primary.pull-right Boys 5$
-                p
-                    strong Business & Entrepreneurs Workshop
-                    br
-                    em at Grand Hotel Italia
-                    br
-                    span.small 10:00 AM - 21:00 PM
-            .col-xs-12.col-sm-6.col-md-3.event
-                .thumbnail
-                    .overlay
-                    img.img-responsive(alt='alternative text', src='http://lorempixel.com/800/400/nightlife?2')
-                span.label.label-info.date Jun 12
-                span.label.label-primary.pull-right Boys 5$
-                p
-                    strong Business & Entrepreneurs Workshop
-                    br
-                    em at Grand Hotel Italia
-                    br
-                    span.small 10:00 AM - 21:00 PM
-            .col-xs-12.col-sm-6.col-md-3.event
-                .thumbnail
-                    .overlay
-                    img.img-responsive(alt='alternative text', src='http://lorempixel.com/800/400/nightlife?3')
-                span.label.label-info.date Jun 12
-                span.label.label-primary.pull-right Boys 5$
-                p
-                    strong Business & Entrepreneurs Workshop
-                    br
-                    em at Grand Hotel Italia
-                    br
-                    span.small 10:00 AM - 21:00 PM
+            .col-md-12.col-xs-12.col-sm-12
+                .box.box-warning
+                    .box-header.with-border
+                        h3.box-title Past Events
+                        .box-tools.pull-right
+                            button.btn.btn-box-tool(data-widget='collapse')
+                                i.fa.fa-minus
+                    // /.box-header
+                    .box-body
+                        .row
+                            if events
+                                each val in events
+                                    if val.eventStatus == "past"
+                                        - count = count + 1;
+                                        .col-xs-12.col-sm-6.col-md-3.event
+                                            .thumbnail
+                                                .overlay
+                                                img.img-responsive(alt='alternative text', src='http://lorempixel.com/800/400/nightlife/' + count)
+                                            span.label.label-info.pull-left #{prettyDate(val.eventDate)}
+                                            if val.privateEvent
+                                                span.label.label-danger.pull-right Private
+                                            else
+                                                span.label.label-success.pull-right Public
+                                            br
+                                            p
+                                                strong #{val.eventName}
+                                                br
+                                                em at #{val.eventLocation}
+                                                br
+                                                span.small #{val.eventStartTime} - #{val.eventEndTime}

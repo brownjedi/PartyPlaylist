@@ -48,6 +48,7 @@
                 type = (el.data("type")) ? el.data("type") : settings.type,
                 datatype = (el.data("datatype")) ? el.data("datatype") : settings.dataType;
             el.off("click");
+            settings.replaceURL = (el.attr("data-replaceURL")) ? (el.attr("data-replaceURL") === 'true' ? true : (el.attr("data-replaceURL") === 'false' ? false : el.attr("data-replaceURL"))) : settings.replaceURL;
             el.click(function () {
                 $.ajax({
                     type: type,

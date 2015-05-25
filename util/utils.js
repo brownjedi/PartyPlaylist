@@ -3,7 +3,10 @@
  */
 
 var spotifyApi = require('./../util/spotify');
+var db = require('./../database/database.js');
 var async = require('async');
+
+var eventCollection = db.get('events');
 
 module.exports = {
     /**
@@ -47,6 +50,7 @@ module.exports = {
         variables.country = "US";
         variables.email = "john.doe@crazypeople.com";
         variables.product = "unknown";
+        variables.events = undefined;
 
         async.waterfall([
             function (callback) {
@@ -67,6 +71,11 @@ module.exports = {
                             if (body.images != undefined && body.images.length > 0) {
                                 variables.image = body.images[0].url
                             }
+
+                            if(body.external_urls && body.external_urls.spotify){
+                                variables.spotify_link = body.external_urls.spotify
+                            }
+
                             variables.country = body.country;
                             variables.email = body.email;
                             variables.product = body.product;
@@ -79,16 +88,32 @@ module.exports = {
                             variables.country = "US";
                             variables.email = "john.doe@crazypeople.com";
                             variables.product = "unknown";
-                            if(return_null){
+                            variables.events = undefined;
+                            if (return_null) {
                                 callback(null, null);
-                            }else{
+                            } else {
                                 callback(null, variables);
                             }
                         });
                 } else {
-                    if(return_null){
+                    if (return_null) {
                         callback(null, null);
-                    }else{
+                    } else {
+                        callback(null, variables);
+                    }
+                }
+            }, function (variables, callback) {
+                if (variables && variables.id != "johndoe") {
+                    eventCollection.find({
+                        userId: variables.id
+                    }, {}, function (err, res) {
+                        variables.events = res;
+                        callback(null, variables);
+                    });
+                } else {
+                    if (return_null) {
+                        callback(null, null);
+                    } else {
                         callback(null, variables);
                     }
                 }
