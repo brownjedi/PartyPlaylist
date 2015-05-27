@@ -202,7 +202,9 @@ router.post('/addTrack', function (req, res) {
                     }]
                 });
             } else {
-                return res.status(201).end();
+                return res.status(201).json({
+                    "success": 1
+                });
             }
         });
     }
