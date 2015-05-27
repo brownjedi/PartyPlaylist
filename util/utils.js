@@ -30,9 +30,9 @@ module.exports = {
             function (callback) {
                 spotifyApi.getPlaylistTracks('saikarthik027', '3mDgin6mINNlcQXj6AyGyt')
                     .then(function (data) {
-                        console.log(data);
-                        console.log("\n\n");
-                        console.log(data.body);
+                        //console.log(data);
+                        //console.log("\n\n");
+                        //console.log(data.body);
                         callback(null, data);
                     }, function (err) {
                         console.error(err);
@@ -72,7 +72,7 @@ module.exports = {
                                 variables.image = body.images[0].url
                             }
 
-                            if(body.external_urls && body.external_urls.spotify){
+                            if (body.external_urls && body.external_urls.spotify) {
                                 variables.spotify_link = body.external_urls.spotify
                             }
 
@@ -119,5 +119,23 @@ module.exports = {
                 }
             }
         ], callback);
+    },
+
+    isEmpty: function (obj) {
+        // null and undefined are "empty"
+        if (obj == null) return true;
+
+        // Assume if it has a length property with a non-zero value
+        // that that property is correct.
+        if (obj.length && obj.length > 0) return false;
+        if (obj.length === 0) return true;
+
+        // Otherwise, does it have any properties of its own?
+        // Note that this doesn't handle
+        // toString and toValue enumeration bugs in IE < 9
+        for (var key in obj) {
+            if (hasOwnProperty.call(obj, key)) return false;
+        }
+        return true;
     }
 };

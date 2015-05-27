@@ -1,3 +1,188 @@
-//
-   Created by saikarthikreddyginni on 5/24/15.
+extends layout
+block maincontent
+    // Content Header (Page header)
+    section.content-header
+        h1 Event
+        ol.breadcrumb
+            li
+                a(href='#')
+                    i.fa.fa-dashboard  Level
+            li.active Event
+    // Main content
+    section.content#maincontentblock
+        // Your Page Content Here
+        .row
+            .col-lg-3.col-xs-6
+                // small box
+                .small-box.bg-aqua
+                    .inner
+                        h3 150
+                        p New Orders
+                    .icon
+                        i.ion.ion-bag
+                    a.small-box-footer(href='#')
+                        | More info
+                        i.fa.fa-arrow-circle-right
+            // ./col
+            .col-lg-3.col-xs-6
+                // small box
+                .small-box.bg-green
+                    .inner
+                        h3
+                            | 53
+                            sup(style='font-size: 20px') %
+                        p Bounce Rate
+                    .icon
+                        i.ion.ion-stats-bars
+                    a.small-box-footer(href='#')
+                        | More info
+                        i.fa.fa-arrow-circle-right
+            // ./col
+            .col-lg-3.col-xs-6
+                // small box
+                .small-box.bg-yellow
+                    .inner
+                        h3 44
+                        p User Registrations
+                    .icon
+                        i.ion.ion-person-add
+                    a.small-box-footer(href='#')
+                        | More info
+                        i.fa.fa-arrow-circle-right
+            // ./col
+            .col-lg-3.col-xs-6
+                // small box
+                .small-box.bg-red
+                    .inner
+                        h3 65
+                        p Unique Visitors
+                    .icon
+                        i.ion.ion-pie-graph
+                    a.small-box-footer(href='#')
+                        | More info
+                        i.fa.fa-arrow-circle-right
+            // ./col
+        // /.row
+        // Main row
+        .row
+            .col-md-6.col-sm-12.col-xs-12
+                // PRODUCT LIST
+                .box.box-primary
+                    .box-header.with-border
+                        h3.box-title Tracks
+                        .box-tools.pull-right
+                            button.btn.btn-box-tool(data-widget='collapse')
+                                i.fa.fa-minus
+                    // /.box-header
+                    .box-body(style="min-height: 415px;")
+                        ul.products-list.product-list-in-box
+                            li.item
+                                .product-img
+                                    img(src='dist/img/default-50x50.gif', alt='Product Image')
+                                .product-info
+                                    a.product-title(href='javascript:executeAudio();')
+                                        | Samsung TV
+                                        span.label.label-warning.pull-right $1800
+                                    span.product-description
+                                        | Samsung 32" 1080p 60Hz LED Smart HDTV.
+                            // /.item
+                            li.item
+                                .product-img
+                                    img(src='dist/img/default-50x50.gif', alt='Product Image')
+                                .product-info
+                                    a.product-title(href='javascript::;')
+                                        | Bicycle
+                                        span.label.label-info.pull-right $700
+                                    span.product-description
+                                        | 26" Mongoose Dolomite Men's 7-speed, Navy Blue.
+                            // /.item
+                            li.item
+                                .product-img
+                                    img(src='dist/img/default-50x50.gif', alt='Product Image')
+                                .product-info
+                                    a.product-title(href='javascript::;')
+                                        | Xbox One
+                                        span.label.label-danger.pull-right $350
+                                    span.product-description
+                                        | Xbox One Console Bundle with Halo Master Chief Collection.
+                            // /.item
+                            li.item
+                                .product-img
+                                    img(src='dist/img/default-50x50.gif', alt='Product Image')
+                                .product-info
+                                    a.product-title(href='javascript::;')
+                                        | PlayStation 4
+                                        span.label.label-success.pull-right $399
+                                    span.product-description
+                                        | PlayStation 4 500GB Console (PS4)
+            .col-md-6.col-sm-12.col-xs-12
+                .box.box-primary
+                    .box-header.with-border
+                        h3.box-title Track Info
+                        .box-tools.pull-right
+                            button.btn.btn-box-tool(data-widget='collapse')
+                                i.fa.fa-minus
+                    // /.box-header
+                    .box-body#trackinfobox(style="height: 358px;")
+                        .movie-ticket
+                            // Item
+                            .ui-item
+                                // Head
+                                .ui-head
+                                    // Background Image
+                                    img.img-responsive.bg-img(src='http://lorempixel.com/800/400/technics/7/', alt='', style="height: 340px;")
+                                    // Transparent Background
+                                    .ui-trans.clearfix
+                                        // Image
+                                        img.img-responsive(src='http://lorempixel.com/300/300/people/5/', alt='')
+                                        // Details
+                                        .ui-details.clearfix
+                                            // Movie Name
+                                            h2
+                                                a(href='#') Final destination
+                                            // Labels
+                                            a.label(href='#') 2014
+                                            a.label(href='#') PG - 13
+                                            a.label(href='#') 143 min
+                                            a.label(href='#') Action
+                                            a.label(href='#') Adventures
+                                            // Paragraph
+                                            p
+                                                | Nemo enim ipsam volup tatem quia volup tas sit asper natur aut odit aut fugit volup quia volup tas sit asper natur aut odit aut fugit volup tatem sequi nesc iunt.
+                                            // Heading
+                                            h4
+                                                span Director
+                                                | :
+                                            // Director Name
+                                            h5
+                                                a(href='#') Joss Whedon
+                                            // Heading
+                                            h4
+                                                span Writers
+                                                | :
+                                            // Writers
+                                            h5
+                                                a(href='#')  Joss Whedon (screenplay), Zak Penn (story)
+                                            // Heading
+                                            h4
+                                                span Stars
+                                                | :
+                                            // Stars
+                                            h5
+                                                a(href='#') Slorm Mckency. ,
+                                                a(href='#') Maring lawyent ,
+                                                a(href='#') Lowin cleanting
+                    .box-footer.text-center
+                        audio(style="width: 100%", controls)
+                            source(src='https://p.scdn.co/mp3-preview/983821137f65b2d8cbfb978d1d69cceaf84bf1bd', type='audio/mpeg')
 
+block scripts
+    script.
+        $('audio').audioPlayer();
+        $("audio").bind('ended', function () {
+            // done playing
+            alert("Player stopped");
+        });
+        function executeAudio(){
+            $('.audioplayer-playpause').trigger('click');
+        }

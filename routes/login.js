@@ -132,6 +132,33 @@ router.get('/playboard', function (req, res) {
     });
 });
 
+
+router.get('/event', function (req, res) {
+
+    // use the access token to access the Spotify Web API
+    var access_token = req.cookies ? req.cookies['spotify_access_token'] : null;
+    utils.getUserDetails(access_token, true, function (err, variables) {
+        if (variables != undefined) {
+            res.cookie('user_id', variables.id);
+            if (req.xhr) {
+                variables.ajaxRender = true;
+            } else {
+                variables.ajaxRender = false;
+            }
+            res.render('event', variables);
+        } else {
+            res.clearCookie('user_id');
+            res.clearCookie('spotify_access_token');
+            res.clearCookie('spotify_refresh_token');
+            res.redirect('/#' +
+                querystring.stringify({
+                    error: 'invalid_token'
+                }));
+        }
+    });
+});
+
+
 router.get('/refresh_token', function (req, res) {
     // requesting access token from refresh token
     var refresh_token = req.cookies ? req.cookies['spotify_refresh_token'] : null;

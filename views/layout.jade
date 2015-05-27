@@ -27,6 +27,8 @@ if (!ajaxRender)
             link(rel='stylesheet', type='text/css', href='stylesheets/AdminLTE.min.css')
             // Playboard CSS
             link(rel='stylesheet', type='text/css', href='stylesheets/playboard.css')
+            // Audioplayer CSS
+            link(rel='stylesheet', type='text/css', href='stylesheets/audioplayer.css')
             //
                 AdminLTE Skins. We have chosen the skin-blue for this starter
                 page. However, you can choose any other skin. Make sure you
@@ -111,7 +113,7 @@ if (!ajaxRender)
                                             .pull-right
                                                 a.btn.btn-default.btn-flat(href='/logout') Sign out
                 // Left side column. contains the logo and sidebar
-                aside.main-sidebar
+                aside.main-sidebar.left-side
                     // sidebar: style can be found in sidebar.less
                     section.sidebar
                         // Sidebar user panel (optional)
@@ -183,7 +185,7 @@ if (!ajaxRender)
                     block maincontent
 
                 footer.main-footer.my-fixed-footer
-                    // Default to the left
+                    //// Default to the left
                     strong Copyright &copy; 2015
                         a(href='#')  Crazy People. Inc.
                         |  All rights reserved.
@@ -201,6 +203,8 @@ if (!ajaxRender)
             script(src='javascripts/jquery.livequery.min.js', type='text/javascript')
             // Faskclick
             script(src='javascripts/fastclick.min.js', type='text/javascript')
+            // Audioplayer
+            script(src='javascripts/audioplayer.js', type='text/javascript')
             // slimscroll
             // script(src='javascripts/jquery.slimscroll.min.js', type='text/javascript')
             // Layout JS
@@ -225,7 +229,6 @@ if (!ajaxRender)
                 };
 
                 $(document).ready(function () {
-
                     $(".ajax-call").livequery(function () {
                         $(this).loadingbar({
                             replaceURL: true,
@@ -236,7 +239,7 @@ if (!ajaxRender)
                             error: function (xhr, text, errorThrown) {
                                 $("#mainblock").html(xhr.responseText);
                                 console.log(text);
-                                toastr.error('Unable to load the profile of user at this time!');
+                                toastr.error("Unable to process your request at this time.\n Please try again later!");
                             },
                             dataType: "html",
                             //done: function (data) {
@@ -248,5 +251,8 @@ if (!ajaxRender)
                         });
                     });
                 });
+
+            block scripts
 else
     block maincontent
+    block scripts
