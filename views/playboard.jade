@@ -37,21 +37,22 @@ block maincontent
                                     if val.eventStatus == "ongoing"
                                         - count = count + 1;
                                         .col-xs-12.col-sm-6.col-md-3.event
-                                            .thumbnail
-                                                .overlay
-                                                img.img-responsive(alt='alternative text', src='http://lorempixel.com/800/400/nightlife/' + count)
-                                            span.label.label-info.pull-left #{prettyDate(val.eventDate)}
-                                            if val.privateEvent
-                                                span.label.label-danger.pull-right Private
-                                            else
-                                                span.label.label-success.pull-right Public
-                                            br
-                                            p
-                                                strong #{val.eventName}
+                                            a.ajax-call(href='/event?eventId=' + val._id, data-target='#mainblock', data-replaceURL='true')
+                                                .thumbnail
+                                                    .overlay
+                                                    img.img-responsive(alt='alternative text', src='http://lorempixel.com/800/400/nightlife/' + count)
+                                                span.label.label-info.pull-left #{prettyDate(val.eventDate)}
+                                                if val.privateEvent
+                                                    span.label.label-danger.pull-right Private
+                                                else
+                                                    span.label.label-success.pull-right Public
                                                 br
-                                                em at #{val.eventLocation}
-                                                br
-                                                span.small #{val.eventStartTime} - #{val.eventEndTime}
+                                                p
+                                                    strong #{val.eventName}
+                                                    br
+                                                    em at #{val.eventLocation}
+                                                    br
+                                                    span.small #{val.eventStartTime} - #{val.eventEndTime}
         .row
             .col-md-12.col-xs-12.col-sm-12
                 .box.box-info
@@ -68,21 +69,22 @@ block maincontent
                                     if val.eventStatus == "future"
                                         - count = count + 1;
                                         .col-xs-12.col-sm-6.col-md-3.event
-                                            .thumbnail
-                                                .overlay
-                                                img.img-responsive(alt='alternative text', src='http://lorempixel.com/800/400/nightlife/' + count)
-                                            span.label.label-info.pull-left #{prettyDate(val.eventDate)}
-                                            if val.privateEvent
-                                                span.label.label-danger.pull-right Private
-                                            else
-                                                span.label.label-success.pull-right Public
-                                            br
-                                            p
-                                                strong #{val.eventName}
+                                            a.ajax-call(href='/event?eventId=' + val._id, data-target='#mainblock', data-replaceURL='true')
+                                                .thumbnail
+                                                    .overlay
+                                                    img.img-responsive(alt='alternative text', src='http://lorempixel.com/800/400/nightlife/' + count)
+                                                span.label.label-info.pull-left #{prettyDate(val.eventDate)}
+                                                if val.privateEvent
+                                                    span.label.label-danger.pull-right Private
+                                                else
+                                                    span.label.label-success.pull-right Public
                                                 br
-                                                em at #{val.eventLocation}
-                                                br
-                                                span.small #{val.eventStartTime} - #{val.eventEndTime}
+                                                p
+                                                    strong #{val.eventName}
+                                                    br
+                                                    em at #{val.eventLocation}
+                                                    br
+                                                    span.small #{val.eventStartTime} - #{val.eventEndTime}
         .row
             .col-md-12.col-xs-12.col-sm-12
                 .box.box-warning
@@ -99,18 +101,19 @@ block maincontent
                                     if val.eventStatus == "past"
                                         - count = count + 1;
                                         .col-xs-12.col-sm-6.col-md-3.event
-                                            .thumbnail
-                                                .overlay
-                                                img.img-responsive(alt='alternative text', src='http://lorempixel.com/800/400/nightlife/' + count)
-                                            span.label.label-info.pull-left #{prettyDate(val.eventDate)}
-                                            if val.privateEvent
-                                                span.label.label-danger.pull-right Private
-                                            else
-                                                span.label.label-success.pull-right Public
-                                            br
-                                            p
-                                                strong #{val.eventName}
+                                            a.ajax-call(href='/event?eventId=' + val._id, data-target='#mainblock', data-replaceURL='true')
+                                                .thumbnail
+                                                    .overlay
+                                                    img.img-responsive(alt='alternative text', src='http://lorempixel.com/800/400/nightlife/' + count)
+                                                span.label.label-info.pull-left #{prettyDate(val.eventDate)}
+                                                if val.privateEvent
+                                                    span.label.label-danger.pull-right Private
+                                                else
+                                                    span.label.label-success.pull-right Public
                                                 br
-                                                em at #{val.eventLocation}
-                                                br
-                                                span.small #{val.eventStartTime} - #{val.eventEndTime}
+                                                p
+                                                    strong #{val.eventName}
+                                                    br
+                                                    em at #{val.eventLocation}
+                                                    br
+                                                    span.small #{val.eventStartTime} - #{val.eventEndTime}

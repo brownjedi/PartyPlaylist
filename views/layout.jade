@@ -11,6 +11,8 @@ if (!ajaxRender)
             script(src='plugins/jQuery/jQuery-2.1.4.min.js')
             // Loadingbar JS
             script(src='javascripts/jquery.loadingbar.js')
+                // Loadingbar JS
+            script(src='javascripts/typeahead.bundle.js')
             // Loadingbar CSS
             link(rel='stylesheet', type='text/css', href='stylesheets/loadingbar.css')
             // toastr JS
@@ -29,6 +31,7 @@ if (!ajaxRender)
             link(rel='stylesheet', type='text/css', href='stylesheets/playboard.css')
             // Audioplayer CSS
             link(rel='stylesheet', type='text/css', href='stylesheets/audioplayer.css')
+
             //
                 AdminLTE Skins. We have chosen the skin-blue for this starter
                 page. However, you can choose any other skin. Make sure you
@@ -148,7 +151,7 @@ if (!ajaxRender)
                                         each val in events
                                             if val.eventStatus == "ongoing"
                                                 li
-                                                    a(href='#')
+                                                    a.ajax-call(href='/event?eventId=' + val._id, data-target='#mainblock', data-replaceURL='true')
                                                         i.fa.fa-circle-o
                                                         | #{val.eventName}
 
@@ -162,7 +165,7 @@ if (!ajaxRender)
                                         each val in events
                                             if val.eventStatus == "future"
                                                 li
-                                                    a(href='#')
+                                                    a.ajax-call(href='/event?eventId=' + val._id, data-target='#mainblock', data-replaceURL='true')
                                                         i.fa.fa-circle-o
                                                         | #{val.eventName}
                             li.treeview
@@ -175,7 +178,7 @@ if (!ajaxRender)
                                         each val in events
                                             if val.eventStatus == "past"
                                                 li
-                                                    a(href='#')
+                                                    a.ajax-call(href='/event?eventId=' + val._id, data-target='#mainblock', data-replaceURL='true')
                                                         i.fa.fa-circle-o
                                                         | #{val.eventName}
                         // /.sidebar-menu
@@ -205,6 +208,8 @@ if (!ajaxRender)
             script(src='javascripts/fastclick.min.js', type='text/javascript')
             // Audioplayer
             script(src='javascripts/audioplayer.js', type='text/javascript')
+            // bPopup
+            script(src='javascripts/jquery.popup.min.js', type='text/javascript')
             // slimscroll
             // script(src='javascripts/jquery.slimscroll.min.js', type='text/javascript')
             // Layout JS

@@ -4,7 +4,10 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var debug = require('debug')('PartyPlaylist:server');
 
+var http = require('http');
+var io = require('socket.io');
 var login = require('./routes/login');
 var api = require('./routes/api');
 var utils = require('./util/utils');
@@ -23,10 +26,84 @@ app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+
 /**
- *  Detecting an AJAX route
+ * Get port from environment and store in Express.
  */
 
+var port = normalizePort(process.env.PORT || '8888');
+app.set('port', port);
+
+/**
+ * Create HTTP server.
+ */
+
+//app.post('/addTrack', function (req, res) {
+//    //var partyCode = req.query.partyCode;
+//    var partyCode = 'HURRAY1';
+//    var json = JSON.parse(JSON.stringify(req.body));
+//
+//    if (partyCode == undefined || partyCode == "") {
+//        return res.status(400).json({
+//            "Error": [{
+//                "status": 400,
+//                "message": "A valid party code is required!"
+//            }]
+//        });
+//    } else if(!json.previewUrl || !json.name || !json.albumImage || !json.artistName){
+//        return res.status(400).json({
+//            "Error": [{
+//                "status": 400,
+//                "message": "The fields previewUrl, name, albumImage and artistName must be present in the JSON body"
+//            }]
+//        });
+//    } else {
+//        async.waterfall([
+//            function (callback) {
+//                eventCollection.findOne({
+//                    eventCode: partyCode
+//                }, {}, callback);
+//            },
+//            function (result, callback) {
+//                if (result) {
+//                    trackCollection.update({
+//                        eventId: result._id
+//                    }, {"$push": {tracks: json}}, callback);
+//                }
+//            }
+//        ], function (err, result) {
+//            if (err) {
+//                return res.status(500).json({
+//                    "Error": [{
+//                        "status": 500,
+//                        "message": err
+//                    }]
+//                });
+//            } else {
+//                io.emit('message', json);
+//                return res.status(201).json({
+//                    "success": 1
+//                });
+//            }
+//        });
+//    }
+//});
+
+var server = http.createServer(app);
+io = io.listen(server);
+
+io.sockets.on('connection', function(socket){
+    console.log("Hurray");
+});
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+server.listen(port);
+
+server.on('error', onError);
+server.on('listening', onListening);
 
 app.use('/', login);
 app.use('/api/v1', api);
@@ -98,5 +175,62 @@ app.use(function (err, req, res, next) {
     });
 });
 
+/**
+ * Normalize a port into a number, string, or false.
+ */
+function normalizePort(val) {
+    var port = parseInt(val, 10);
+
+    if (isNaN(port)) {
+        // named pipe
+        return val;
+    }
+
+    if (port >= 0) {
+        // port number testing
+        return port;
+    }
+    return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+    if (error.syscall !== 'listen') {
+        throw error;
+    }
+
+    var bind = typeof port === 'string'
+        ? 'Pipe ' + port
+        : 'Port ' + port;
+
+    // handle specific listen errors with friendly messages
+    switch (error.code) {
+        case 'EACCES':
+            console.error(bind + ' requires elevated privileges');
+            process.exit(1);
+            break;
+        case 'EADDRINUSE':
+            console.error(bind + ' is already in use');
+            process.exit(1);
+            break;
+        default:
+            throw error;
+    }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+    var addr = server.address();
+    var bind = typeof addr === 'string'
+        ? 'pipe ' + addr
+        : 'port ' + addr.port;
+    debug('Listening on ' + bind);
+}
 
 module.exports = app;

@@ -4,6 +4,11 @@ var spotifyApi = require('./../util/spotify');
 var utils = require('./../util/utils');
 var stateKey = 'spotify_auth_state';
 var router = express.Router();
+var async = require('async');
+var db = require('./../database/database');
+
+var eventCollection = db.get('events');
+var trackCollection = db.get('tracks');
 
 
 router.get('/', function (req, res) {
@@ -70,20 +75,20 @@ router.get('/callback', function (req, res) {
 });
 
 
-router.use(function (req, res, next) {
-    var access_token = req.cookies ? req.cookies['spotify_access_token'] : null;
-    if (access_token != undefined) {
-        next();
-    } else {
-        res.clearCookie('user_id');
-        res.clearCookie('spotify_access_token');
-        res.clearCookie('spotify_refresh_token');
-        res.redirect('/#' +
-            querystring.stringify({
-                error: 'invalid_token'
-            }));
-    }
-});
+//router.use(function (req, res, next) {
+//    var access_token = req.cookies ? req.cookies['spotify_access_token'] : null;
+//    if (access_token != undefined) {
+//        next();
+//    } else {
+//        res.clearCookie('user_id');
+//        res.clearCookie('spotify_access_token');
+//        res.clearCookie('spotify_refresh_token');
+//        res.redirect('/#' +
+//            querystring.stringify({
+//                error: 'invalid_token'
+//            }));
+//    }
+//});
 
 router.get('/user', function (req, res) {
     var access_token = req.cookies ? req.cookies['spotify_access_token'] : null;
@@ -133,29 +138,56 @@ router.get('/playboard', function (req, res) {
 });
 
 
-router.get('/event', function (req, res) {
+router.get('/event', function (req, res, next) {
 
-    // use the access token to access the Spotify Web API
-    var access_token = req.cookies ? req.cookies['spotify_access_token'] : null;
-    utils.getUserDetails(access_token, true, function (err, variables) {
-        if (variables != undefined) {
-            res.cookie('user_id', variables.id);
-            if (req.xhr) {
-                variables.ajaxRender = true;
-            } else {
-                variables.ajaxRender = false;
+    var eventCode = req.query.eventId;
+
+    if (eventCode == undefined || eventCode == "") {
+        var err = new Error('Not Found');
+        err.status = 404;
+        next(err);
+    } else {
+        // use the access token to access the Spotify Web API
+        var access_token = req.cookies ? req.cookies['spotify_access_token'] : null;
+
+        var final_output = {};
+
+        async.waterfall([
+            function (callback) {
+                utils.getUserDetails(access_token, true, callback);
+            },
+            function (result, callback) {
+                if (result != undefined) {
+                    res.cookie('user_id', result.id);
+                    final_output = JSON.parse(JSON.stringify(result));
+                    trackCollection.findOne({
+                        eventId: trackCollection.id(eventCode)
+                    }, {}, callback);
+                } else {
+                    res.clearCookie('user_id');
+                    res.clearCookie('spotify_access_token');
+                    res.clearCookie('spotify_refresh_token');
+                    return res.redirect('/#' +
+                        querystring.stringify({
+                            error: 'invalid_token'
+                        }));
+                }
             }
-            res.render('event', variables);
-        } else {
-            res.clearCookie('user_id');
-            res.clearCookie('spotify_access_token');
-            res.clearCookie('spotify_refresh_token');
-            res.redirect('/#' +
-                querystring.stringify({
-                    error: 'invalid_token'
-                }));
-        }
-    });
+        ], function (err, variables) {
+            if (variables && variables.tracks) {
+                final_output.tracks = variables.tracks;
+            } else {
+                final_output.tracks = [];
+            }
+
+            if (req.xhr) {
+                final_output.ajaxRender = true;
+            } else {
+                final_output.ajaxRender = false;
+            }
+            res.render('event', final_output);
+        });
+    }
 });
 
 

@@ -8,6 +8,7 @@ var db = require('./../database/database');
 var spotifyApi = require('./../util/spotify');
 var async = require('async');
 var router = express.Router();
+var app = require('./../app');
 
 var eventCollection = db.get('events');
 var trackCollection = db.get('tracks');
@@ -133,7 +134,6 @@ router.get('/searchTracks', function (req, res) {
             function (callback) {
                 spotifyApi.searchTracks(trackName)
                     .then(function (data) {
-                        console.log(data);
                         callback(null, data);
                     }, function (err) {
                         console.error(err);
@@ -158,58 +158,6 @@ router.get('/searchTracks', function (req, res) {
         });
     }
 });
-
-
-router.post('/addTrack', function (req, res) {
-    //TODO Implement Websocket here
-    var partyCode = req.query.partyCode;
-    var json = JSON.parse(JSON.stringify(req.body));
-
-    if (partyCode == undefined || partyCode == "") {
-        return res.status(400).json({
-            "Error": [{
-                "status": 400,
-                "message": "A valid party code is required!"
-            }]
-        });
-    } else if(!json.previewUrl || !json.name || !json.albumImage || !json.artistName){
-        return res.status(400).json({
-            "Error": [{
-                "status": 400,
-                "message": "The fields previewUrl, name, albumImage and artistName must be present in the JSON body"
-            }]
-        });
-    } else {
-        async.waterfall([
-            function (callback) {
-                eventCollection.findOne({
-                    eventCode: partyCode
-                }, {}, callback);
-            },
-            function (result, callback) {
-                if (result) {
-                    trackCollection.update({
-                        eventId: result._id
-                    }, {"$push": {tracks: json}}, callback);
-                }
-            }
-        ], function (err, result) {
-            if (err) {
-                return res.status(500).json({
-                    "Error": [{
-                        "status": 500,
-                        "message": err
-                    }]
-                });
-            } else {
-                return res.status(201).json({
-                    "success": 1
-                });
-            }
-        });
-    }
-});
-
 
 router.get('/users/:user_id/playlists/:playlist_id/tracks', function (req, res) {
     var access_token = req.cookies ? req.cookies['spotify_access_token'] : null;
@@ -265,6 +213,56 @@ function parseSearchTracks(tracks) {
     return output;
 }
 
+
+router.post('/addTrack', function (req, res) {
+    var partyCode = req.query.partyCode;
+    var json = JSON.parse(JSON.stringify(req.body));
+
+    if (partyCode == undefined || partyCode == "") {
+        return res.status(400).json({
+            "Error": [{
+                "status": 400,
+                "message": "A valid party code is required!"
+            }]
+        });
+    } else if(!json.previewUrl || !json.name || !json.albumImage || !json.artistName){
+        return res.status(400).json({
+            "Error": [{
+                "status": 400,
+                "message": "The fields previewUrl, name, albumImage and artistName must be present in the JSON body"
+            }]
+        });
+    } else {
+        async.waterfall([
+            function (callback) {
+                eventCollection.findOne({
+                    eventCode: partyCode
+                }, {}, callback);
+            },
+            function (result, callback) {
+                if (result) {
+                    trackCollection.update({
+                        eventId: result._id
+                    }, {"$push": {tracks: json}}, callback);
+                }
+            }
+        ], function (err, result) {
+            if (err) {
+                return res.status(500).json({
+                    "Error": [{
+                        "status": 500,
+                        "message": err
+                    }]
+                });
+            } else {
+                //app.sendMessage(json);
+                return res.status(201).json({
+                    "success": 1
+                });
+            }
+        });
+    }
+});
 
 function parsePlaylistTracks(tracks) {
     var output = [];
